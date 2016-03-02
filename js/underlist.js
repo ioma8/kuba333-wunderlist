@@ -20,6 +20,11 @@
     });
 
     wunderlistSDK.initialized.then(start);
+
+    $('#reload').click(function(){
+      $lists.find('ul').html('');
+      loadLists();
+    })  ;
   });
 
   function start () {
