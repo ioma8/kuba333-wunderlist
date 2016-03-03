@@ -1,15 +1,52 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
-  </head>
-  <body>
-    <button id="reload">RELOAD!</button>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
 
-    <div class="lists">
-      <ul>
-      </ul>
-    </div>
+<div data-role="page">
+  <div data-role="header">
+    <h1>kuba333 - wunder</h1>
+  </div>
 
-    <script type="text/javascript" src="js/kuba333wund.js"></script>
-  </body>
+  <div data-role="main" class="ui-content">
+    <input type="button" id="loadLists" value="WunderList" />
+    <ul data-role="listview" data-inset="true" data-filter="true" class="mainlistarea">
+    </ul>
+  </div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div>
+
+<script>
+  $( document ).on( "mobileinit", function() {
+      $.mobile.changePage.defaults.changeHash = false;
+      $.mobile.hashListeningEnabled = false;
+      $.mobile.pushStateEnabled = false;
+      $.mobile.loading( "hide" );
+      $.support.cors=true;
+      $.mobile.allowCrossDomainPages = true;
+      $.mobile.loader.prototype.options.disabled = true;
+  });
+
+  $('#loadLists').click(function(){
+      $('.mainlistarea').html('');
+      $.getJSON('https://a.wunderlist.com/api/v1/lists?client_id=bd483f8b708076fe3327&access_token=25711c2eed990251aac52ac6f2509b3344195743553f514d21ad4ad9836f&client_device_id=undefined&client_instance_id=undefined',function(data){
+        var items = [];
+        $.each( data, function( key, val ) {
+          items.push( "<li><a href='#'>" + val.title + "</a></li>" );
+        });
+        $('.mainlistarea').html(items.join(''));
+      });
+  });
+
+</script>
+
+</body>
 </html>
